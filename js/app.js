@@ -1,6 +1,19 @@
+// system job
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+
+// funny color toggling
 var color = '0000ff';
 var wrapper = $('#photo_wrap');
-
 function toggleColor() {
     $(wrapper).css('background-color', '#' + color);
     color = (color == '0000ff') ? '00ff00' : '0000ff';
@@ -10,39 +23,44 @@ setInterval(function() {
     toggleColor()
 }, 200);
 
-// var canvas = document.getElementById('canvas');
-// var ctx = canvas.getContext('2d');
-// var width  = window.innerWidth;
-// var height = window.innerHeight;
-// canvas.height = height;
-// canvas.width = width;
+// canvas eraser job
+var canvas = document.getElementById('magician');
+var ctx = canvas.getContext('2d');
+var width  = 375; var height = 500;
+canvas.height = height; canvas.width = width;
+var image = document.getElementById('real_photo');
+var offset = $(canvas).offset();
+offset.top = offset.top - height;
+$(window).resize( function() {
+    offset = $(canvas).offset();
+    offset.top = offset.top - height;
+});
 
-// ctx.fillRect(100,100,100,100);
+with (ctx) {
+    lineCap = "round";
+    drawImage(image, 0, 0);
+    globalCompositeOperation = "destination-out";
+    lineWidth = 15;
+    strokeStyle = "green";
+}
 
-// canvas.addEventListener('mousedown', function(e) {
-//     this.down = true;   
-//     this.X = e.pageX ;
-//     this.Y = e.pageY ;
-//     this.color = rgb();
-// }, 0);
-// canvas.addEventListener('mouseup', function() {
-//     this.down = false;          
-// }, 0);
-// canvas.addEventListener('mousemove', function(e) {
+image.remove();
 
-//     if(this.down) {
-//          with(ctx) {
-//             ctx.lineCap = "round";
-//             beginPath();
-//             moveTo(this.X, this.Y);
-//             lineTo(e.pageX , e.pageY );
-//             globalCompositeOperation = "destination-out";
-//             strokeStyle = "rgba(0,0,0,1)";
-//             ctx.lineWidth = 10;
-//             ctx.lineHeight = 20;
-//             stroke();
-//          }
-//          this.X = e.pageX ;
-//          this.Y = e.pageY ;
-//     }
-// }, 0);
+canvas.addEventListener('mousedown', function(e) {
+    this.down = true;
+    this.X = e.pageX - offset.left;
+    this.Y = e.pageY - offset.top;
+}, 0);
+canvas.addEventListener('mouseup', function() {
+    this.down = false;          
+}, 0);
+canvas.addEventListener('mousemove', function(e) {
+    if (this.down) {
+        ctx.beginPath();
+        ctx.moveTo(this.X, this.Y);
+        ctx.lineTo(e.pageX - offset.left, e.pageY - offset.top);
+        ctx.stroke();
+        this.X = e.pageX - offset.left;
+        this.Y = e.pageY - offset.top;
+    }
+}, 0);
