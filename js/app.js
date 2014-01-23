@@ -39,6 +39,7 @@ $(window).resize( function() {
 with (ctx) {
     lineCap = "round";
     drawImage(image, 0, 0);
+    console.log(image);
     globalCompositeOperation = "destination-out";
     lineWidth = 15;
     strokeStyle = "green";
