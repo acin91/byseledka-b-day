@@ -46,6 +46,7 @@ body {
 
 #photo_wrap canvas {
     position: absolute;
-    z-index: 1000;
+    z-index: 2;
     left: 10px;
+    top: 10px;
 }
