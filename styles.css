@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url(images/stars.gif);
+}
+#main {
+    text-align: center;
+}
+
+#main > #title {
+    font-size: 30px;
+    color: #00ff00;
+    width: 400px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#main #photo_wrap {
+    width: 375px;
+    height: 500px;
+    padding: 10px;
+    display: inline-block;
+    background-color: #0000ff;
+}
+
+#help {
+    font-size: 20px;
+    color: #ff0000;
+    width: 400px;
+    margin: 50px 0 100px 0;
+}
