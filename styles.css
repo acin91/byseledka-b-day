@@ -53,4 +53,5 @@ body {
 #real_photo {
     position: absolute;
     z-index: 4;
+    left: 10px;
 }
